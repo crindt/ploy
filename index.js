@@ -68,6 +68,7 @@ function Ploy (opts) {
         }
         
         function prohibit (msg) {
+            req.connection._bouncyStream._handled = false; 
             res.statusCode = 401;
             res.setHeader('www-authenticate', 'basic');
             res.end(msg + '\n');
