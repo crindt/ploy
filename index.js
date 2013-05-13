@@ -84,12 +84,12 @@ Ploy.prototype.createBouncer = function (opts) {
             }
             self.handle(req, res);
         }
-        else if (!/^_/.test(branch) && self.branches[branch]) {
-            bounce(self.branches[branch]);
-        }
-        else if (self.external && self.external[subdomain]) {
+        else if (self.external && self.external[subdomain]) { // give externals priority
             var urlo = url.parse(self.external[subdomain])
             bounce(urlo.host, urlo.port || 80 , { headers: { host: urlo.host } })
+        }
+        else if (!/^_/.test(branch) && self.branches[branch]) {
+            bounce(self.branches[branch]);
         }
         else {
             res.statusCode = 404;
