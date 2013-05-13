@@ -50,6 +50,7 @@ function Ploy (opts) {
     
     self.bouncers = [];
     self.auth = opts.auth;
+    self.external = opts.external;
     self.restore();
 }
 
@@ -68,6 +69,8 @@ Ploy.prototype.createBouncer = function (opts) {
         ;
         var branch = (self.branches[subdomain] && subdomain) || 'master';
         
+        console.log('external',self.external)
+
         if (RegExp('^/_ploy\\b').test(req.url)) {
             if (self.auth) {
                 var au = req.headers.authorization;
@@ -83,6 +86,10 @@ Ploy.prototype.createBouncer = function (opts) {
         }
         else if (!/^_/.test(branch) && self.branches[branch]) {
             bounce(self.branches[branch]);
+        }
+        else if (self.external && self.external[subdomain]) {
+            var urlo = url.parse(self.external[subdomain])
+            bounce(urlo.host, urlo.port || 80 , { headers: { host: urlo.host } })
         }
         else {
             res.statusCode = 404;

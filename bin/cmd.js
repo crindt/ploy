@@ -144,11 +144,14 @@ else if (true || cmd === 'server') {
     
     var dir = path.resolve(argv.dir || argv.d || argv._.shift() || '.');
     var authFile = argv.auth || argv.a;
+    var externalProxiesFile = argv.external || argv.e;
+    console.log('extproxies',externalProxiesFile)
     var opts = {
         repodir: path.join(dir, 'repo'),
         workdir: path.join(dir, 'work'),
         logdir: path.join(dir, 'log'),
-        auth: authFile && JSON.parse(fs.readFileSync(authFile))
+        auth: authFile && JSON.parse(fs.readFileSync(authFile)),
+        external: externalProxiesFile && JSON.parse(fs.readFileSync(externalProxiesFile))
     };
     
     var server = ploy(opts);

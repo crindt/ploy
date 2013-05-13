@@ -1,13 +1,20 @@
 usage:
 
   ploy server DIRECTORY PORT
-  ploy server { -d DIRECTORY | -p PORT | -a AUTHFILE }
+  ploy server { -d DIRECTORY | -p PORT | -a AUTHFILE | -e EXTERNALFILE }
 
     Create a ploy http server, hosting repositories in DIRECTORY and listening
     on PORT for incoming connections.
  
     If AUTHFILE is given, it should be a json file that maps usernames to
     token strings to use for basic auth protection for ploy actions.
+
+    If EXTERNALFILE is given, is should be a json file that maps
+    additional subdomains that aren't managed by ploy in the form:
+
+        { "subdomain1": "externalhost1:externalport1",
+          "subdomain2": "externalhost2:externalport2"
+        }
     
     Type `ploy help ssl` to show ssl options.
  
